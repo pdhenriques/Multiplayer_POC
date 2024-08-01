@@ -1,0 +1,4 @@
+node_modules/
+*.mjs
+*.map
+notes.txt
