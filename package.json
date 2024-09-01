@@ -1,23 +1,32 @@
 {
-  "name": "multiplayer-game-prototype",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "serve": "node serve.js",
-    "bots": "node bots.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/ws": "^8.5.10",
-    "http-server": "^14.1.1",
-    "typescript": "^5.5.3"
-  },
-  "dependencies": {
-    "ws": "^8.18.0"
-  }
+    "name": "multiplayer-game-prototype",
+    "version": "1.0.0",
+    "description": "",
+    "main": "client.js",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "serve": "node serve.js",
+        "test": "jest"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/ws": "^8.5.12",
+        "http-server": "^14.1.1",
+        "typescript": "^5.5.3"
+    },
+    "dependencies": {
+        "@types/jest": "^29.5.12",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
+        "ws": "^8.18.0"
+    },
+    "jest": {
+        "verbose": true,
+        "roots": ["./src"],
+        "collectCoverageFrom": ["src/*.ts","src/**/*.ts"],
+        "transform": {"^.+\\.ts?$": "ts-jest"},
+        "testMatch": ["./**/?(*.)(spec|test).(ts|js)?(x)"]
+    }
 }

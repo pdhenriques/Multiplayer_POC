@@ -1,5 +1,4 @@
-import {WebSocketServer, WebSocket} from 'ws';
-import {Net} from './NetCode.mjs'
+import Net from './NetCode.js'
 
 const net = new Net(6970)
 
