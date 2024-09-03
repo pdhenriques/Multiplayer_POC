@@ -1,6 +1,6 @@
 import { Color } from '../Color';
 
-interface testType {
+interface ColorConstructorTest {
     id: string,
     in: string,
     out: string,
@@ -8,13 +8,8 @@ interface testType {
 
 describe("Color", () => {
 
-    /**
-     * Some test color:
-     * "255,  0,255,300,100,50,1"
-     */
-
-    const colorConstructorTests: Array<testType> = [
-        { id: "Color", in: "", out: "255,0,255,300,100,50,1" },
+    const colorConstructorTests: Array<ColorConstructorTest> = [
+        { id: "Color-EmptyString", in: "", out: "255,0,255,300,100,50,1" },
         
         { id: "Color-Name-Blue", in: "Blue", out: "0,0,255,240,100,50,1" },
         { id: "Color-Name-blue", in: "blue", out: "0,0,255,240,100,50,1" },
@@ -80,8 +75,8 @@ describe("Color", () => {
         { id: "Color-Hsla-fail-4", in: "hsla(200, 75, 50, 2)", out: "255,0,255,300,100,50,1" },
         { id: "Color-Hsla-fail-5", in: "hsla(200, 75, 50, -0.12345678)", out: "255,0,255,300,100,50,1" },
 
-        { id: "Color", in: "", out: "255,0,255,300,100,50,1" },
-        { id: "Color", in: "", out: "255,0,255,300,100,50,1" },
+        // { id: "Color", in: "", out: "255,0,255,300,100,50,1" },
+        // { id: "Color", in: "", out: "255,0,255,300,100,50,1" },
     ]
 
 
@@ -89,11 +84,11 @@ describe("Color", () => {
     let count = 0
 
     // Constructor
-    test((++count).toString(), () => {
+    test((++count)+": Color-NoArguments", () => {
         expect(new Color().toString()).toBe("255,0,255,300,100,50,1");
     });
 
-    test((++count).toString(), () => {
+    test((++count)+": Color-Undefined", () => {
         expect(new Color(undefined).toString()).toBe("255,0,255,300,100,50,1");
     });
 

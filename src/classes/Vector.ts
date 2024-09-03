@@ -3,23 +3,27 @@
  * If any of the Vectors is 2D (this or that), it will operate as 2D only.
  */
 
-class Vector {
+export class Vector {
     x: number
     y: number
     z: number | undefined
 
-    constructor(x: number = 0, y: number = 0, z: number | undefined = undefined) {
+    constructor(x: number = 0, y: number = 0, z?: number) {
         this.x = x
         this.y = y
         this.z = z
     }
-    
+
     static polar(mag: number, dir: number) {
-        return new Vector(Math.cos(dir) * mag, Math.sin(dir) * mag);
+        return new Vector(Math.cos(dir) * mag, Math.sin(dir) * mag)
     }
 
     clone() {
         return new Vector(this.x, this.y, this.z)
+    }
+
+    toString(precision: number = 2) {
+        return `${this.x.toFixed(precision)},${this.y.toFixed(precision)},${this.z?.toFixed(precision)}`
     }
 
     add(that: Vector) {
@@ -70,20 +74,20 @@ class Vector {
     }
 
     len() {
-        return Math.sqrt(this.x**2 + this.y**2 + (this.z ?? 0)**2)
+        return Math.sqrt(this.x ** 2 + this.y ** 2 + (this.z ?? 0) ** 2)
     }
-    
+
     norm() {
-        const len = this.len() || 1;
-        return this.scale(1/len)
+        const len = this.len() || 1
+        return this.scale(1 / len)
     }
 
     dist(that: Vector) {
-        return this.clone().sub(that).len();
+        return this.clone().sub(that).len()
     }
 
     dir() {
         return Math.atan2(this.y, this.x)
     }
-    
+
 }
