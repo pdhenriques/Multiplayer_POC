@@ -6,33 +6,37 @@
 */
 
 import { colorNames, NameOfColor } from "./colorNames";
+import { Utils } from './Utils';
 
 enum ColorModes {
     hex = "#",
     rgb = "r",
-    hsl = "g",
+    hsl = "h",
 }
 
 export class Color {
     //defaults to bright pink
-    r: number = 255; // 0 - 255 // red
-    g: number = 0; // 0 - 255 // green
-    b: number = 255; // 0 - 255 // blue
-    h: number = 300; // 0 - 360 // hue
-    s: number = 100; // 0 - 100 // saturation
-    l: number = 50; // 0 - 100 // lightness
-    a: number = 1; // 0 - 1   // alpha
+    r: number = 255;    // 0 - 255 // red
+    g: number = 0;      // 0 - 255 // green
+    b: number = 255;    // 0 - 255 // blue
+    h: number = 300;    // 0 - 360 // hue
+    s: number = 100;    // 0 - 100 // saturation
+    l: number = 50;     // 0 - 100 // lightness
+    a: number = 1;      // 0 - 1   // alpha
 
     constructor(colorString?: string) {
         if (colorString) {
             let c;
+            colorString = Utils.removeSpaces(colorString).toLowerCase()
 
-            // name: "blue"
             if ((c = Color.tryGetHexFromName(colorString))) {
                 colorString = c;
             }
 
             if (colorString[0] === ColorModes.hex) {
+
+                if(![3,4,6,8].includes(colorString.length - 1)) return this
+
                 // hex8: "#RRGGBBAA"
                 if ((c = colorString.match(/^#([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})/i))) {
                     this.r = parseInt(c[1], 16);
@@ -157,14 +161,34 @@ export class Color {
     }
 
     clone(): Color {
-        return new Color(`rgba(${this.r},${this.g},${this.b},${this.a})`);
+        const newColor = new Color();
+        newColor.r = this.r
+        newColor.g = this.g
+        newColor.b = this.b
+        newColor.h = this.h
+        newColor.s = this.s
+        newColor.l = this.l
+        newColor.a = this.a
+        return newColor
     }
 
-    static createFromRGBA(r: number, g: number, b: number, a: number): Color {
-        return new Color(`rgba(${r},${g},${b},${a})`);
+    static createFromRGBA(r: number, g: number, b: number, a: number = 1): Color {
+        const newColor = new Color();
+        newColor.r = r
+        newColor.g = g
+        newColor.b = b
+        newColor.a = a
+        newColor.fillHSLfromRGB()
+        return newColor
     }
-    static createFromHSLA(h: number, s: number, l: number, a: number): Color {
-        return new Color(`hsla(${h},${s},${l},${a})`);
+    static createFromHSLA(h: number, s: number, l: number, a: number = 1): Color {
+        const newColor = new Color();
+        newColor.h = h
+        newColor.s = s
+        newColor.l = l
+        newColor.a = a
+        newColor.fillRGBfromHSL()
+        return newColor
     }
 
     static createRandomColor(a: number = 1): Color {
@@ -286,15 +310,26 @@ export class Color {
         this.l = Math.round(l * 100);
     }
 
-    changeHue(hue: number): Color {
-        if (Color.isHue(hue)) this.h = Math.round(hue);
-        this.fillRGBfromHSL();
-        return this;
+    rgb(r: number, g: number, b: number, a?: number) {
+        this.r = Utils.clamp(Math.round(r), 0, 255)
+        this.g = Utils.clamp(Math.round(g), 0, 255)
+        this.b = Utils.clamp(Math.round(b), 0, 255)
+        this.a = a ?? this.a
     }
 
-    static isHue(h: number): boolean {
-        if (typeof h === "number" && h >= 0 && h <= 360) return true;
-        return false;
+    hsb(h: number, s: number, l: number, a?: number) {
+        this.h = Utils.clamp(Math.round(h), 0, 255)
+        this.s = Utils.clamp(Math.round(s), 0, 255)
+        this.l = Utils.clamp(Math.round(l), 0, 255)
+        this.a = a ?? this.a
+    }
+
+    hue(hue: number): Color {
+        if (hue >= 0 && hue <= 360) {
+            this.h = Math.round(hue);
+            this.fillRGBfromHSL();
+        }
+        return this;
     }
 
     alpha(a: number) {
