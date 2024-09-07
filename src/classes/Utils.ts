@@ -3,6 +3,10 @@ export class Utils {
         return Math.min(Math.max(num, min), max);
     }
 
+    static toFloat(num: number, precision: number) {
+        return Number(num.toFixed(precision))
+    }
+
     static between(num: number, min: number, max: number): boolean {
         return num >= min && num <= max;
     }
