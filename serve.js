@@ -1,6 +1,7 @@
 // @ts-check
 // Do not run this file directly. Run it via `npm run watch`. See package.json for more info.
-const { spawn } = require('child_process');
+// const { spawn } = require('child_process');
+import { spawn } from 'child_process';
 
 /**
  * 
@@ -24,5 +25,5 @@ function cmd(program, args = []) {
     return p;
 }
 
-cmd('node', ['server.js'])
+cmd('node', ['./dist/server.js'])
 cmd('http-server', ['-p', '6969', '-a', '127.0.0.1', '-s', '-c-1', '-d', 'false'])

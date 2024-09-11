@@ -2,7 +2,7 @@ import { WebSocketServer } from "ws";
 
 const SERVER_PORT = 6970
 
-export default class Net {
+export class Net {
     wss = new WebSocketServer({
         host: "localhost",
         port: SERVER_PORT,
